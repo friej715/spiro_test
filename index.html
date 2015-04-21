@@ -8,31 +8,86 @@
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
-var fixedCircleRadius = 50;
-var movingCircleRadius = 20;
-var pointOffset = 3;
+var spirographs = [];
 
-var prevX;
-var prevY;
-
+for (var i = 0; i < 5; i++) {
+	var s = new Spirograph();
+	s.init(i * 10, i*8 * Math.random(), Math.random()*3, '#'+Math.floor(Math.random()*16777215).toString(16))
+	spirographs.push(s)
+}
 
 setInterval(function() {
-	var secs = new Date().getTime();
+	for (var i = 0; i < 5; i++) {
+		spirographs[i].drawPoint();
+	}
 
-	var x = (fixedCircleRadius+movingCircleRadius) * Math.cos(secs) - (movingCircleRadius+pointOffset) * Math.cos(((fixedCircleRadius + movingCircleRadius)/movingCircleRadius)*secs) + 250;
-
-	var y = (fixedCircleRadius+movingCircleRadius) * Math.sin(secs) - (movingCircleRadius+ pointOffset) * Math.sin(((fixedCircleRadius + movingCircleRadius)/movingCircleRadius)*secs) + 250;
-
-	ctx.fillStyle="#FFFFFF"
-	ctx.fillRect(x, y, 3, 3)
-
-	prevX = x;
-	prevY = y;
-
-	ctx.fillStyle="rgba(0, 0, 0, 0.01)";
+	ctx.fillStyle="rgba(255, 255, 255, 0.005)";
 	ctx.fillRect(0,0, 500, 500)
-
 }, 1)
+
+function Spirograph() {
+	this.deviceName = null;
+
+	this.fixedCircleRadius = null;
+	this.movingCircleRadius = null;
+	this.pointOffset = null;
+
+	this.prevX = null;
+	this.prevY = null;
+
+	this.fillStyle = null;
+
+	this.init = function(fixed, moving, point, style) {
+		this.fixedCircleRadius = fixed;
+		this.movingCircleRadius = moving;
+		this.pointOffset = point;
+		this.fillStyle = style;
+		console.log("fixed: " + this.fixedCircleRadius)
+	}
+
+	this.drawPoint = function() {
+		var secs = new Date().getTime()/500;
+
+		var x = (this.fixedCircleRadius+this.movingCircleRadius) * Math.cos(secs) - (this.movingCircleRadius+this.pointOffset) * Math.cos(((this.fixedCircleRadius + this.movingCircleRadius)/this.movingCircleRadius)*secs) + 250;
+
+		var y = (this.fixedCircleRadius+this.movingCircleRadius) * Math.sin(secs) - (this.movingCircleRadius+this.pointOffset) * Math.sin(((this.fixedCircleRadius + this.movingCircleRadius)/this.movingCircleRadius)*secs) + 250;
+
+		// ctx.strokeStyle = this.fillStyle;
+		// ctx.beginPath();
+		// ctx.moveTo(this.prevX, this.prevY);
+		// ctx.lineTo(x, y);
+		// ctx.stroke();
+
+		// this.prevX = x;
+		// this.prevY = y;
+
+		ctx.fillStyle=this.fillStyle;
+		ctx.strokeStyle="rgba(0,0,0, 0)"
+		ctx.fillRect(x, y, 3, 3)
+	}
+
+
+}
+
+
+
+// setInterval(function() {
+// 	var secs = new Date().getTime();
+
+// 	var x = (fixedCircleRadius+movingCircleRadius) * Math.cos(secs) - (movingCircleRadius+pointOffset) * Math.cos(((fixedCircleRadius + movingCircleRadius)/movingCircleRadius)*secs) + 250;
+
+// 	var y = (fixedCircleRadius+movingCircleRadius) * Math.sin(secs) - (movingCircleRadius+ pointOffset) * Math.sin(((fixedCircleRadius + movingCircleRadius)/movingCircleRadius)*secs) + 250;
+
+// 	ctx.fillStyle="#FFFFFF"
+// 	ctx.fillRect(x, y, 3, 3)
+
+// 	prevX = x;
+// 	prevY = y;
+
+// 	ctx.fillStyle="rgba(0, 0, 0, 0.01)";
+// 	ctx.fillRect(0,0, 500, 500)
+
+// }, 1)
 
 
 </script>
