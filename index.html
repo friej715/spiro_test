@@ -1,0 +1,39 @@
+<html>
+<body>
+
+	<canvas id="myCanvas" width="500" height="500"></canvas>
+
+</body>
+<script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+var fixedCircleRadius = 50;
+var movingCircleRadius = 20;
+var pointOffset = 3;
+
+var prevX;
+var prevY;
+
+
+setInterval(function() {
+	var secs = new Date().getTime();
+
+	var x = (fixedCircleRadius+movingCircleRadius) * Math.cos(secs) - (movingCircleRadius+pointOffset) * Math.cos(((fixedCircleRadius + movingCircleRadius)/movingCircleRadius)*secs) + 250;
+
+	var y = (fixedCircleRadius+movingCircleRadius) * Math.sin(secs) - (movingCircleRadius+ pointOffset) * Math.sin(((fixedCircleRadius + movingCircleRadius)/movingCircleRadius)*secs) + 250;
+
+	ctx.fillStyle="#FFFFFF"
+	ctx.fillRect(x, y, 3, 3)
+
+	prevX = x;
+	prevY = y;
+
+	ctx.fillStyle="rgba(0, 0, 0, 0.01)";
+	ctx.fillRect(0,0, 500, 500)
+
+}, 1)
+
+
+</script>
+</html>
